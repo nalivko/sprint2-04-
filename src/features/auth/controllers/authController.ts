@@ -8,5 +8,5 @@ export const authController = async (req: Request, res: Response) => {
 
     const me = await userQueryRepository.getUserById(userId)
 
-    return res.status(201).send({email: me?.email, login: me?.login, userId})
+    return res.status(200).send({email: me?.email, login: me?.login, userId})
 }
