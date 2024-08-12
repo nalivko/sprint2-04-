@@ -25,6 +25,6 @@ export const SETTINGS = {
     },
     AC_SECRET: 'secretkey',
     REFRESH_SECRET: 'refreshsecretkey',
-    AC_TIME: '30s',
+    AC_TIME: '10s',
     REFRESH_TIME: '20s'
 }
