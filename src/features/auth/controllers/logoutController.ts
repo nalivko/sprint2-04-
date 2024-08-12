@@ -7,6 +7,9 @@ export const logoutController = async (req: Request, res: Response) => {
     if (!refreshToken) {
         return res.status(401).send()
     }
+    if(!await authService.verifyRefreshToken(refreshToken)) {
+        return res.status(401).send()
+    }
     await authService.addToExpiredTokens(req.cookies.refreshToken)
 
     res.clearCookie('refreshToken').status(204);

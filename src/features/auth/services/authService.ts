@@ -137,8 +137,6 @@ export const authService = {
 
         if (!user) return null
 
-        // if(!user.emailConfirmation.isConfirmed) return null
-
         const isCorrect = await bcrypt.compare(password, user.passwordHash)
 
         if (!isCorrect) return null
@@ -187,5 +185,18 @@ export const authService = {
 
     async addToExpiredTokens(refreshToken: string) {
         expiredTokensRepository.addToken({token: refreshToken})
+    },
+
+    async verifyRefreshToken(refreshToken: string): Promise<boolean | null> {
+        try {
+            await jwtService.verifyRefreshToken(refreshToken)
+            
+            if (await expiredTokensRepository.isTokenExpired(refreshToken)) {
+                return false
+            }
+        } catch(err) {
+            return false
+        }
+        return true
     }
 }
