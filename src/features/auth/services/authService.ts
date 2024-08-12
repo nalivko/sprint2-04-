@@ -137,10 +137,9 @@ export const authService = {
     async checkCredentials(loginOrEmail: string, password: string): Promise<WithId<UserDbType> | null> {
         const user: WithId<UserDbType> | null = await usersRepository.findUserByLoginOrEmail(loginOrEmail)
 
-        console.log('user', user);
         if (!user) return null
 
-        if(!user.emailConfirmation.isConfirmed) return null
+        // if(!user.emailConfirmation.isConfirmed) return null
 
         const isCorrect = await bcrypt.compare(password, user.passwordHash)
 
