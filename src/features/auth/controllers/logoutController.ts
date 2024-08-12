@@ -7,7 +7,12 @@ export const logoutController = async (req: Request, res: Response) => {
     if (!refreshToken) {
         return res.status(401).send()
     }
+    const f = await authService.verifyRefreshToken(refreshToken)
+    console.log('f', f);
+    
     if(!await authService.verifyRefreshToken(refreshToken)) {
+        console.log('dsdsdsdsd');
+        
         return res.status(401).send()
     }
     console.log(refreshToken);

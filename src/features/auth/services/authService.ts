@@ -189,16 +189,16 @@ export const authService = {
 
     async verifyRefreshToken(refreshToken: string): Promise<boolean | null> {
         try {
-            const result = await jwtService.verifyRefreshToken(refreshToken)
+            const userId = await jwtService.verifyRefreshToken(refreshToken)
             
             if (await expiredTokensRepository.isTokenExpired(refreshToken)) {
                 return false
             }
+            console.log(userId);
 
-            return result.u
+            return userId
         } catch(err) {
             return false
         }
-        return true
     }
 }
