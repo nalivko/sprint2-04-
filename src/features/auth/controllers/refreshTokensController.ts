@@ -14,7 +14,7 @@ export const refreshTokensController = async (req: Request, res: Response) => {
         return res.status(401).send()
     }
 
-    const newRefreshToken = await authService.generateRefreshToken(req.user.userId, req.user.login, refreshToken)
+    const newRefreshToken = await authService.generateRefreshToken(refreshToken)
     
     res
         .cookie('refreshToken', newRefreshToken, { httpOnly: true, secure: true })

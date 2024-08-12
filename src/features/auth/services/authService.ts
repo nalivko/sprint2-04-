@@ -114,10 +114,8 @@ export const authService = {
 
     async generateNewAccessToken(refreshToken: string, user: {userId: string, login: string}): Promise<string | null> {
         try {
-            const result = await jwtService.verifyRefreshToken(refreshToken)
-            if (result.user.userId !== user.userId) {
-                return null
-            }
+            await jwtService.verifyRefreshToken(refreshToken)
+            
             if (await expiredTokensRepository.isTokenExpired(refreshToken)) {
                 return null
             }
@@ -127,11 +125,11 @@ export const authService = {
         return await jwtService.createToken(user.userId.toString(), user.login)
     },
 
-    async generateRefreshToken(userId: string, login: string, oldToken: string | null = null) {
+    async generateRefreshToken(oldToken: string | null = null) {
         if (oldToken) {
             await this.addToExpiredTokens(oldToken)
         }
-        return await jwtService.createRefreshToken(userId, login)
+        return await jwtService.createRefreshToken()
     },
 
     async checkCredentials(loginOrEmail: string, password: string): Promise<WithId<UserDbType> | null> {

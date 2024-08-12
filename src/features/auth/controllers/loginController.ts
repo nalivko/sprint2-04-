@@ -10,7 +10,7 @@ export const loginController = async (req: Request<{}, {}, loginInputType>, res:
         return
     }
 
-    const refreshToken = await authService.generateRefreshToken(req.user.userId, req.user.login)
+    const refreshToken = await authService.generateRefreshToken()
 
     res
         .cookie('refreshToken', refreshToken, { httpOnly: true, secure: true })
