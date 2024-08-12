@@ -2,11 +2,11 @@ import jwt, { JwtPayload } from 'jsonwebtoken'
 import { SETTINGS } from '../settings'
 
 export const jwtService = {
-    async createToken(userId: string, userLogin: string): Promise<string> {
+    async createToken(userId: string): Promise<string> {
         return jwt.sign(
             {
                 user: {
-                    login: userLogin,
+                    // login: userLogin,
                     userId
                 }
             },

@@ -109,10 +109,10 @@ export const authService = {
 
         if (!user) return null
 
-        return await jwtService.createToken(user._id.toString(), user.login)
+        return await jwtService.createToken(user._id.toString())
     },
 
-    async generateNewAccessToken(refreshToken: string, user: {userId: string, login: string}): Promise<string | null> {
+    async generateNewAccessToken(refreshToken: string, userId: string): Promise<string | null> {
         try {
             await jwtService.verifyRefreshToken(refreshToken)
             
@@ -122,7 +122,7 @@ export const authService = {
         } catch(err) {
             return null
         }
-        return await jwtService.createToken(user.userId.toString(), user.login)
+        return await jwtService.createToken(userId)
     },
 
     async generateRefreshToken(userId: string, oldToken: string | null = null) {
