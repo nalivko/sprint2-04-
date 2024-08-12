@@ -17,9 +17,9 @@ export const jwtService = {
         )
     },
 
-    async createRefreshToken(): Promise<string> {
+    async createRefreshToken(userId: string): Promise<string> {
         return jwt.sign(
-            {},
+            {userId},
             SETTINGS.REFRESH_SECRET,
             {
                 expiresIn: SETTINGS.REFRESH_TIME
@@ -41,7 +41,7 @@ export const jwtService = {
         try {
             const result = jwt.verify(refreshToken, SETTINGS.REFRESH_SECRET) as JwtPayload
 
-            return true
+            return result.userId
         } catch (error) {
             return null
         }

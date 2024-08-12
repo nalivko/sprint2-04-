@@ -125,11 +125,11 @@ export const authService = {
         return await jwtService.createToken(user.userId.toString(), user.login)
     },
 
-    async generateRefreshToken(oldToken: string | null = null) {
+    async generateRefreshToken(userId: string, oldToken: string | null = null) {
         if (oldToken) {
             await this.addToExpiredTokens(oldToken)
         }
-        return await jwtService.createRefreshToken()
+        return await jwtService.createRefreshToken(userId)
     },
 
     async checkCredentials(loginOrEmail: string, password: string): Promise<WithId<UserDbType> | null> {
@@ -189,11 +189,13 @@ export const authService = {
 
     async verifyRefreshToken(refreshToken: string): Promise<boolean | null> {
         try {
-            await jwtService.verifyRefreshToken(refreshToken)
+            const result = await jwtService.verifyRefreshToken(refreshToken)
             
             if (await expiredTokensRepository.isTokenExpired(refreshToken)) {
                 return false
             }
+
+            return result.u
         } catch(err) {
             return false
         }
